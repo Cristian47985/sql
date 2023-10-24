@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <title>Formulario de Ejemplo</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      select {
+        /* Elimina el borde */
+        border: none;
+        /* Elimina la apariencia predeterminada de la flecha (botón desplegable) */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* Agrega un fondo transparente para evitar problemas de visualización en algunos navegadores */
+        background: transparent;
+        /* Otras propiedades de estilo personalizadas si es necesario */
+        /* ... */
+      }
+
+    </style>
 </head>
 <body>
     <h1>Formulario de Ejemplo</h1>
@@ -34,7 +49,7 @@
   $(document).ready(function () {
   
   $("#botonVerificar").click(async function () {
-    var tiempoInicial = new Date();
+    obtenerTexto()
     var texto = $("#campoTexto").text().trim();
     var posiblesReemplazosTabla = [];
 
@@ -80,7 +95,7 @@ function hacerSolicitudAjax(texto) {
   function imprimeCorrecciones(texto, tabla) {
     for (let i = 0; i < tabla.length; i++) {
       const opciones = tabla[i];
-      var selectHTML = "<select style='background-color: #ff9999; border-radius: 5px;'>";
+      var selectHTML = "<select style='border-bottom: 3px solid #ff9999; border-radius: 5px;'>";
       for (var j = 0; j < opciones.length; j++) {
         selectHTML += "<option value='" + opciones[j] + "'>" + opciones[j] + "</option>";
       }
