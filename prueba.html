@@ -1,17 +1,38 @@
+<!DOCTYPE html>
+<html>
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Formulario de Ejemplo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<div id="campoTexto" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
-  Escribe texto aqui...
-</div>
-<div id="resultado"></div>
-<button onclick="applyFormat()">Aplicar Formato</button>
-<select id="sugerencias" style="display: none;"></select>
-<button id="botonVerificar">Verificar Ortografía</button>
-<div id="mensajeError" style="color: red;"></div>
+<body>
+    <h1>Formulario de Ejemplo</h1>
+    <form action="procesar_formulario.php" method="post"  onsubmit="return validarYEnviar(this);">
+      <div id="campoTexto" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
+        escribe texto aqui...
+      </div>
+
+      <!--<div hidden id="resultado" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;"></div>-->
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" name="comentario" rows="4" cols="50"></textarea><br><br>
+        
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <input id="enviar" type="submit" value="Enviar">
+        <input id="botonVerificar" type="button" value="Verificar Ortografía">
+        <input id="botonVerificar" type="button" value="obtener Texto" onclick="obtenerTexto()">
+    </form>
+</body>
+</html>
 <script>
   // Espera a que el documento esté listo
   $(document).ready(function () {
+  
   $("#botonVerificar").click(async function () {
     var tiempoInicial = new Date();
     var texto = $("#campoTexto").text().trim();
@@ -60,15 +81,13 @@ function hacerSolicitudAjax(texto) {
     for (let i = 0; i < tabla.length; i++) {
       const opciones = tabla[i];
       var selectHTML = "<select style='background-color: #ff9999; border-radius: 5px;'>";
-      console.log(opciones.length)
       for (var j = 0; j < opciones.length; j++) {
         selectHTML += "<option value='" + opciones[j] + "'>" + opciones[j] + "</option>";
-        console.log(opciones[j])
       }
       selectHTML += "</select>";
       texto = replaceAll(texto, tabla[i][0], selectHTML)
     }
-    $("#resultado").html(texto);
+    $("#campoTexto").html(texto);
   }
 
 
@@ -90,4 +109,21 @@ function hacerSolicitudAjax(texto) {
 
     return resultado;
   }
+
+  function obtenerTexto() {
+  var $div = $("#campoTexto");
+
+  var selects = $div.find("select");
+
+  selects.each(function(index, select) {
+    var valorSeleccionado = $(select).find("option:selected").text();
+    $(select).replaceWith(valorSeleccionado);
+  });
+
+}
+
+
+
+
 </script>
+
