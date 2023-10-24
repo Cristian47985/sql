@@ -1,0 +1,157 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<input type="text" id="campoTexto2" class="campoVacio" name="texto">
+<div id="campoTexto" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
+  Escribe texto aqui...
+</div>
+<div id="resultado"></div>
+<button onclick="applyFormat()">Aplicar Formato</button>
+<select id="sugerencias" style="display: none;"></select>
+<button id="botonVerificar">Verificar Ortografía</button>
+<div id="mensajeError" style="color: red;"></div>
+<script>
+  // Espera a que el documento esté listo
+  $(document).ready(function () {
+    // Maneja el clic en el botón "Verificar Ortografía"
+    $("#botonVerificar").click(function () {
+      // Obtiene el texto del elemento con el ID "campoTexto" y lo limpia
+      var texto = $("#campoTexto").text().trim();
+      var posiblesReemplazos = []
+      console.log(texto)
+      // Realiza la solicitud a la API de LanguageTool
+      $.get("https://api.languagetool.org/v2/check", { text: texto, language: "es" }, function (data) {
+        var $resultado = $("#resultado");
+        console.log(texto)
+        //console.log("data")
+        //console.log(data)
+        //var palabras = texto.split(/\s+/);
+        //console.log("palabras")
+        //console.log(palabras)
+        
+        // Borra el contenido anterior en el elemento con ID "resultado"
+        $resultado.empty();
+        var matches = data.matches
+
+        for (let i = 0; i < matches.length; i++) {
+          const element = matches[i];
+          
+        
+        //console.log(matches)
+        var descripcion = element.rule.description;
+        var palabraErronea = descripcion.substring(descripcion.indexOf(":")+1).trim()
+        posiblesReemplazos.push(palabraErronea)
+
+        for (var j = 0; j < element.replacements.length; j++) {
+          var replacement = element.replacements[j];
+          posiblesReemplazos.push(replacement.value);
+        }
+        //var remplazos = data.matches[i].replacements
+        console.log(posiblesReemplazos);
+        //cambios.push(palabraErronea, remplazos)
+
+
+        }
+      });
+    });
+  });
+</script>
+
+
+<!--  
+<script>
+  function verificarOrtografia(texto, idioma, callback) {
+    const apiUrl = `https://api.languagetool.org/v2/check?text=${encodeURIComponent(texto)}&language=${idioma}`;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', apiUrl, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+
+        if (data.matches.length > 0) {
+          const match = data.matches[0];
+          const mensajeError = match.message;
+          const sugerencias = match.replacements.map(rep => rep.value);
+          const contexto = match.context.text;
+          callback({ mensajeError, sugerencias, contexto });
+        } else {
+          callback(null); // No se encontraron errores ortográficos
+        }
+      } else if (xhr.readyState === 4) {
+        console.error('Error al llamar a la API.');
+        callback({ error: 'Error al llamar a la API.' });
+      }
+    };
+    xhr.send();
+  }
+/*
+// Ejemplo de uso:
+verificarOrtografia('pruebaa', 'es', function (resultado) {
+  if (resultado) {
+    console.log('Mensaje de error: ' + resultado.mensajeError);
+    console.log('Sugerencias de corrección: ' + resultado.sugerencias.join(', '));
+    console.log('Contexto: ' + resultado.contexto);
+  } else {
+    console.log('No se encontraron errores ortográficos.');
+  }
+});
+*/
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('#botonVerificar').click(function() {
+    const texto = $('#campoTexto').val();
+    console.log("ddd")
+    verificarOrtografia(texto, 'es', function(resultado) {
+      if (resultado) {
+        $('#mensajeError').text('Mensaje de error: ' + resultado.mensajeError);
+        console.log('Sugerencias de corrección: ' + resultado.sugerencias.join(', '));
+        // Puedes manejar las sugerencias y contexto como desees
+      } else {
+        $('#mensajeError').text('No se encontraron errores ortográficos.');
+      }
+    });
+  });
+});
+</script>
+
+
+<script>
+  function applyFormat() {
+    const textEditor = document.getElementById("campoTexto");
+    const text = textEditor.innerHTML;
+    textEditor.innerHTML = applyFormatToText(text);
+  }
+
+  function applyFormatToText(text) {
+    text = limpiarText(text);
+    text = text.trim()
+    const words = text.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      console.log(i+"="+words[i])
+      if (i % 2 === 0) { // Aplicar negrita a palabras en posición par (0, 2, 4, ...)
+        words[i] = `<span class="bold">${words[i]}</span>`;
+      }
+    }
+
+    return words.join(" ");
+  }
+
+  function limpiarText(text) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text;
+    
+    // Remove all <span> elements while preserving the text content
+    const spans = tempDiv.querySelectorAll('span');
+    spans.forEach((span) => {
+      const text = document.createTextNode(span.textContent);
+      span.parentNode.replaceChild(text, span);
+    });
+    
+    return tempDiv.textContent;
+  }
+</script>
+-->
