@@ -33,7 +33,7 @@
 <body>
 <div id="container">
 
-<form id="form" action="/createPost" method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="6foED5GdPZgzSVWzZtN4IP5SicV3S2qS8xWi-gRV990sPCuj38g8N_P4XqsefWTQAP5MRMs0pPxDKl2_liyRm2UwwrtOXR-R"/>
+<form id="form" action="/createPost" method="get" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="6foED5GdPZgzSVWzZtN4IP5SicV3S2qS8xWi-gRV990sPCuj38g8N_P4XqsefWTQAP5MRMs0pPxDKl2_liyRm2UwwrtOXR-R"/>
   <!--
     <div id="titulo" class="item">
       <input class="element" type="text" name="titulo" th:field="*{titulo}" placeholder="Título a intruducir"/>
@@ -51,10 +51,10 @@
 
   <textarea id="contenidoEnviar" class="element" name="contenido" placeholder="Contenido del artículo" hidden></textarea>
   <div id="contenido" class="item">
-    <div id="contenidoEditable" class="validar2 element textarea" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;"></div>
+    <div id="contenidoEditable" class="validar element textarea" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;"></div>
   </div>
 
-  <div class="validar" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
+  <div class="validar2" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
     escribe texto aqui...
   </div>
 
