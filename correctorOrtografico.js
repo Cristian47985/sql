@@ -1,9 +1,7 @@
-var campos
+var campo
 $(document).ready(function () {
-    campos = document.querySelectorAll(".validar");
-    console.log(campos.length)
+    campo = $(".validar");
     $("#botonVerificar").click(async function () {
-        campos.forEach(async function (campo) {
             obtenerTexto()
             
             var texto = campo.text().trim();
@@ -36,8 +34,14 @@ $(document).ready(function () {
             } catch (error) {
                 console.error("Error en la solicitud AJAX: " + error);
             }
-            });
     })
+
+
+
+    $("#boton").click(function () {
+        obtenerTexto()
+        $("#contenidoEnviar").val($("#contenidoEditable").text());
+    });
   });
   
   function hacerSolicitudAjax(texto) {
@@ -87,13 +91,15 @@ $(document).ready(function () {
     }
   
     function obtenerTexto() {
-    var $div = $("#campoTexto");
+    var $div = campo
   
     var selects = $div.find("select");
   
     selects.each(function(index, select) {
       var valorSeleccionado = $(select).find("option:selected").text();
       $(select).replaceWith(valorSeleccionado);
-    });
-  
-  }
+    });    
+    }
+
+    //$('#form').submit(function() {
+ 
