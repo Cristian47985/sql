@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Post</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!--<script src="/css/validation.js"></script>-->
+  <script src="correctorOrtografico.js"></script>
+
+  <style>
+  .validar select{
+      /* Elimina el borde */
+        border: none;
+        /* Elimina la apariencia predeterminada de la flecha (botón desplegable) */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* Agrega un fondo transparente para evitar problemas de visualización en algunos navegadores */
+        background: transparent;
+        /* Otras propiedades de estilo personalizadas si es necesario */
+        /* ... */
+        /*display: inline-block;/*
+        display: block; /* Cambia el elemento de flex a bloque */
+
+    }
+    .validar{
+      display: inline-block;
+      font-weight: initial;
+    }
+  </style>
+
+</head>
+<body>
+<div id="container">
+
+<form id="form" action="/createPost" method="post" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="6foED5GdPZgzSVWzZtN4IP5SicV3S2qS8xWi-gRV990sPCuj38g8N_P4XqsefWTQAP5MRMs0pPxDKl2_liyRm2UwwrtOXR-R"/>
+  <!--
+    <div id="titulo" class="item">
+      <input class="element" type="text" name="titulo" th:field="*{titulo}" placeholder="Título a intruducir"/>
+    </div>
+
+      <div id="contenido" class="item">
+        <textarea class="element" name="contenido" th:field="*{contenido}" placeholder="Contenido del artículo"></textarea>
+      </div>
+-->
+  <input id="tituloEnviar" class="element" type="text" name="titulo" placeholder="Título a intruducir" hidden value=""/>
+  <div id="titulo" class="item">
+    <div id="tituloEditable" class="validar2 element textarea" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;"></div>
+  </div>
+
+
+  <textarea id="contenidoEnviar" class="element" name="contenido" placeholder="Contenido del artículo" hidden></textarea>
+  <div id="contenido" class="item">
+    <div id="contenidoEditable" class="validar2 element textarea" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;"></div>
+  </div>
+
+  <div class="validar" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 100px;">
+    escribe texto aqui...
+  </div>
+
+  <input id="botonVerificar" type="button" value="Verificar Ortografía">
+  <input id="boton" type="button" value="boton">
+  <button id="enviar" type="submit" onclick="preprocesado()">Crear</button>
+</form>
+</div>
+</body>
+</html>
